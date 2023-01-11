@@ -3,9 +3,11 @@ import '../src/assets/css/main.css'
 import '../node_modules/bootstrap-icons/font/bootstrap-icons.css'
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import Button from 'react-bootstrap/Button'
+import ToastContainer from 'react-bootstrap/ToastContainer'
 // components
 import { Comment } from './components/Comment'
 import { AddCommentContainer } from './components/AddComment'
+import { DeleteCommentToast } from './components/DeleteCommentToast'
 // data
 import data from '../src/data/data.json'
 // hooks
@@ -16,13 +18,17 @@ import { CommentContext } from './context/CommentsContext'
 
 
 function App() {
-  const [ user, setUser ] = useState(data.currentUser)
-  const [ comments, setComments ] = useState(JSON.parse(JSON.stringify(data)).comments)
+  const [user, setUser] = useState(data.currentUser)
+  const [comments, setComments] = useState(JSON.parse(JSON.stringify(data)).comments)
+  const [showToast, setShowToast] = useState(false);
 
   return (
-    <CommentContext.Provider value={{ comments, setComments }}>
+    <CommentContext.Provider value={{ comments, setComments, setShowToast }}>
       <UserContext.Provider value={{ user }}>
         <div className="App container row mx-auto my-5 gap-3">
+        <ToastContainer position='bottom-end'>
+          <DeleteCommentToast showToast={showToast} setShowToast={setShowToast} />
+        </ToastContainer>
           {comments.map(comment => <Comment comment={comment} isAuthor={user.username === comment.user.username} key={comment.id} />)}
           <AddCommentContainer />
         </div>
