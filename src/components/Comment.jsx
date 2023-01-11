@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button'
 // components
 import { Tag } from './Tag'
 import { Avatar } from './Avatar'
+import { CommentButtons } from './CommentButtons'
 // hooks
 import { useEffect, useContext } from 'react'
 import { useClassConditional } from '../hooks/useClassConditional'
@@ -13,18 +14,14 @@ import { UserContext } from '../context/UserContext'
 
 export const Comment = ({ isReply = false, isAuthor = false, comment }) => {
     const classNames = useClassConditional()
-    const user = useContext(UserContext)
+    const { user } = useContext(UserContext)
+    // TO DO: for new comments, create "x time ago" format
 
-    // TO DO: Use context to update comments if user is connected
-    useEffect(() => {
-      console.log(user)
-    }, [])
     
-
     // I've made the replies work with a recursion,
     // to avoid creating the same component again
     const replies = (comment.replies || []).map(reply => {
-        return <Comment isReply={true} comment={reply} key={reply.id} />
+        return <Comment isReply={true} isAuthor={user.username === reply.user.username} comment={reply} key={reply.id} />
     })
 
     return (
@@ -42,15 +39,12 @@ export const Comment = ({ isReply = false, isAuthor = false, comment }) => {
                     <div className="col-11">
                         <div className='d-flex align-items-center'>
                             {/* user avatar */}
-                            <Avatar user={comment.user} />
+                            <Avatar user={comment.user} isAuthor={isAuthor} />
                             <p className='text-muted mb-0 ms-3 fw-500'>{comment.createdAt}</p>
                             {/* reply | delete edit */}
                             <div className='ms-auto me-3'>
                                 {/* add delete and edit if comment is made by user */}
-                                <Button className='bg-transparent border-0 text-blue fw-bold d-flex align-items-center my-0'>
-                                    <i className='bi-reply-fill fs-4'></i>
-                                    Reply
-                                </Button>
+                                <CommentButtons isAuthor={isAuthor} commentId={comment.id}/>
                             </div>
                         </div>
                         <p className='text-muted mt-1 mb-0'>{comment.replyingTo && <Tag tag={comment.replyingTo} /> } {comment.content}</p>
