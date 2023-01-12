@@ -12,10 +12,6 @@ export const AddCommentContainer = () => {
     const { comments, setComments } = useContext(CommentContext)
     const [inputComment, setInputComment] = useState('')
 
-    useEffect(() => {
-        console.log(comments)
-    }, [])
-
     // const addComment = (commentText) => {
     //     const commentObj = {
     //         "id": (comments[comments.length - 1].replies.length === 0 ? comments[comments.length - 1].id + 1 : comments[comments.length - 1].replies[(comments[comments.length - 1].replies.length) - 1].id + 1),
