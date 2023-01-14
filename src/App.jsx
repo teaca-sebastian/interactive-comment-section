@@ -29,7 +29,7 @@ function App() {
         <ToastContainer position='bottom-end'>
           <DeleteCommentToast showToast={showToast} setShowToast={setShowToast} />
         </ToastContainer>
-          {comments.map(comment => <Comment comment={comment} isAuthor={user.username === comment.user.username} key={comment.id} />)}
+          {comments.map(comment => <Comment comment={comment} isAuthor={user.username === comment.user.username} comments={comments} setComments={setComments} key={comment.id} />)}
           <AddCommentContainer />
         </div>
       </UserContext.Provider>
