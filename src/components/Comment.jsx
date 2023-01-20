@@ -6,7 +6,7 @@ import { Tag } from './Tag'
 import { Avatar } from './Avatar'
 import { CommentButtons } from './CommentButtons'
 // hooks
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { useClassConditional } from '../hooks/useClassConditional'
 // context
 import { UserContext } from '../context/UserContext'
@@ -95,10 +95,10 @@ export const Comment = ({ isReply = false, isAuthor = false, comment, setComment
                     </div>
                 </div>
             </div>
-            
             {
             // these are the recursively added replies
             replies}
+
         </>
     )
 }

@@ -1,5 +1,7 @@
 // bootstrap imported stuff
 import Toast from 'react-bootstrap/Toast'
+// hooks
+import { useEffect } from 'react';
 
 export const Notification = ({ showToast, setShowToast, message, setToastMessage}) => {
     return (

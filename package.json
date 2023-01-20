@@ -10,11 +10,14 @@
     "sass": "sass --watch src/assets/scss/main.scss:src/assets/css/main.css"
   },
   "dependencies": {
+    "@hookform/resolvers": "^2.9.10",
     "bootstrap": "^5.2.3",
     "bootstrap-icons": "^1.10.3",
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-hook-form": "^7.42.1",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@types/react": "^18.0.26",

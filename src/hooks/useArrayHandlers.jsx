@@ -1,4 +1,4 @@
-export const useRecursiveDelete = () => {
+export const useArrayHandlers = () => {
     function recursiveDelete(data, deleteId) {
         const updatedData = data.reduce((acc, el) => {
             if (el.id !== deleteId) {
@@ -14,5 +14,5 @@ export const useRecursiveDelete = () => {
         return updatedData;
     };
 
-    return( recursiveDelete )
+    return { recursiveDelete }
 }

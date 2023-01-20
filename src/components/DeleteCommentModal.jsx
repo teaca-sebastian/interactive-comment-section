@@ -2,21 +2,15 @@
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
 // hooks
-import { useRecursiveDelete } from '../hooks/useRecursiveDelete'
+import { useArrayHandlers } from '../hooks/useArrayHandlers'
 import { useContext } from 'react'
-// context
-import { ToastContext } from '../context/ToastContext'
-
 
 export const DeleteCommentModal = ({ commentId, setShowModal, showModal, setComments }) => {
     const handleModalClose = () => setShowModal(false)
-    const recursiveDelete = useRecursiveDelete()
-    const { setShowToast, setToastMessage } = useContext(ToastContext)
+    const { recursiveDelete } = useArrayHandlers()
 
     const handleDelete = (id) => {
         setComments((prevComments) => recursiveDelete(prevComments, id));
-        setToastMessage('test')
-        setShowToast(true)
     };
 
     return (
