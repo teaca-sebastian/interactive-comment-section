@@ -5,11 +5,9 @@ import Form from 'react-bootstrap/Form'
 import { useContext, useState, useEffect } from 'react'
 // context
 import { UserContext } from '../context/UserContext'
-import { CommentContext } from '../context/CommentsContext'
 
 export const AddCommentContainer = () => {
     const { user } = useContext(UserContext)
-    const { comments, setComments } = useContext(CommentContext)
     const [inputComment, setInputComment] = useState('')
 
     // const addComment = (commentText) => {

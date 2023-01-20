@@ -5,16 +5,17 @@ import Button from 'react-bootstrap/Button'
 import { useRecursiveDelete } from '../hooks/useRecursiveDelete'
 import { useContext } from 'react'
 // context
-import { CommentContext } from '../context/CommentsContext'
+import { ToastContext } from '../context/ToastContext'
 
 
-export const DeleteCommentModal = ({ commentId, setShowModal, showModal }) => {
+export const DeleteCommentModal = ({ commentId, setShowModal, showModal, setComments }) => {
     const handleModalClose = () => setShowModal(false)
     const recursiveDelete = useRecursiveDelete()
-    const { setComments, setShowToast } = useContext(CommentContext)
+    const { setShowToast, setToastMessage } = useContext(ToastContext)
 
     const handleDelete = (id) => {
         setComments((prevComments) => recursiveDelete(prevComments, id));
+        setToastMessage('test')
         setShowToast(true)
     };
 
