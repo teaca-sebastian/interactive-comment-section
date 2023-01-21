@@ -2,11 +2,13 @@
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 // hooks
-import { useContext, useState } from 'react'
+import { useContext, useState, useEffect } from 'react'
 import { useClassConditional } from "../hooks/useClassConditional"
 import { useArrayHandlers } from "../hooks/useArrayHandlers"
 // context
 import { UserContext } from '../context/UserContext'
+// components
+import { Tag } from './Tag'
 
 export const AddCommentContainer = ({ comments, setComments, isReply, isMain = true, commentId, handleReplying }) => {
     const classNames = useClassConditional()
@@ -14,7 +16,6 @@ export const AddCommentContainer = ({ comments, setComments, isReply, isMain = t
     const { user } = useContext(UserContext)
     const [inputComment, setInputComment] = useState('')
 
-    
     function findLastId() {
         const lastReplyId = comments
             .filter(comment => comment.replies.length !== 0)
@@ -25,21 +26,26 @@ export const AddCommentContainer = ({ comments, setComments, isReply, isMain = t
         return (lastCommentId > lastReplyId ? lastCommentId : lastReplyId).id
     }
 
-    const commentObj = {
-        "id": findLastId() + 1,
-        "content": inputComment,
-        "createdAt": "now",
-        "score": 0,
-        "user": user,
-        "replies": []
+    class Comment {
+        constructor() {
+            this.id = findLastId() + 1
+            this.content = inputComment
+            this.replyingTo = findCommentById(comments, commentId).user.username
+            this.createdAt = "now"
+            this.score = 0
+            this.user = user
+            this.replies = []
+        }
     }
 
     const handleAddComment = () => {
+        const commentObj = new Comment
         setComments([...comments, commentObj])
         setInputComment('')
     }
 
     const handleAddReply = () => {
+        const commentObj = new Comment
         const newArray = comments.map(comment => {
             if (!isReply) {
                 if (comment.id === commentId) {
@@ -58,7 +64,7 @@ export const AddCommentContainer = ({ comments, setComments, isReply, isMain = t
     }
 
     return (
-        <div className={classNames('ms-auto rounded bg-white p-2 py-4', isReply ? 'col-11' : 'col-12')}>
+        <div className={classNames('ms-auto rounded bg-white p-2 py-4 mb-3', isReply ? 'col-11' : 'col-12')}>
             <div className="row px-3">
                 <div className="col-9 col-md d-flex align-items-start">
                     <img className='avatar me-4' src={user.image.png} alt="avatar" />
@@ -66,7 +72,7 @@ export const AddCommentContainer = ({ comments, setComments, isReply, isMain = t
                         as="textarea"
                         value={inputComment}
                         rows={3}
-                        placeholder="Add a comment..."
+                        placeholder={isMain ? "Add a comment..." : `Replying to ${findCommentById(comments, commentId).user.username}...`}
                         onChange={(e) => setInputComment(e.target.value)}
                         required
                     />
@@ -83,7 +89,7 @@ export const AddCommentContainer = ({ comments, setComments, isReply, isMain = t
                             }
                         }}
                     >
-                        SEND
+                        {isMain ? 'SEND' : 'REPLY'}
                     </Button>
                 </div>
             </div>
