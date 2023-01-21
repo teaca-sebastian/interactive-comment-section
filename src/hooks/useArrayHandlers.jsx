@@ -14,5 +14,15 @@ export const useArrayHandlers = () => {
         return updatedData;
     };
 
-    return { recursiveDelete }
+    function findCommentById(array, id) {
+        for (const node of array) {
+          if (node.id === id) return node;
+          if (node.replies) {
+            const child = findCommentById(node.replies, id);
+            if (child) return child;
+          }
+        }
+      }
+
+    return { recursiveDelete, findCommentById }
 }

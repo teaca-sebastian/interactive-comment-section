@@ -7,7 +7,7 @@ import { DeleteCommentModal } from './DeleteCommentModal';
 import { useState } from 'react';
 // contex
 
-export const CommentButtons = ({ isAuthor, commentId, setComments }) => {
+export const CommentButtons = ({ isAuthor, commentId, setComments, handleReplying }) => {
     const [showModal, setShowModal] = useState(false)
 
     const handleModalShow = () => setShowModal(true)
@@ -22,7 +22,8 @@ export const CommentButtons = ({ isAuthor, commentId, setComments }) => {
                     <i className='bi-trash-fill fs-5 me-1'></i>
                     Delete
                 </Button>
-                <Button className='text-blue d-flex fw-bold align-items-center bg-transparent border-0'>
+                <Button 
+                    className='text-blue d-flex fw-bold align-items-center bg-transparent border-0'>
                     <i className='bi-pen-fill fs-5 me-1'></i>
                     Edit
                 </Button>
@@ -31,7 +32,9 @@ export const CommentButtons = ({ isAuthor, commentId, setComments }) => {
     )
 
     return (
-        <Button className='bg-transparent border-0 text-blue fw-bold d-flex align-items-center my-0'>
+        <Button 
+            className='bg-transparent border-0 text-blue fw-bold d-flex align-items-center my-0'
+            onClick={handleReplying}>
             <i className='bi-reply-fill fs-4'></i>
             Reply
         </Button>

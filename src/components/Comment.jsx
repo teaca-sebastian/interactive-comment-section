@@ -6,18 +6,15 @@ import { Tag } from './Tag'
 import { Avatar } from './Avatar'
 import { CommentButtons } from './CommentButtons'
 // hooks
-import { useContext, useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useClassConditional } from '../hooks/useClassConditional'
 // context
-import { UserContext } from '../context/UserContext'
+import { AddCommentContainer } from './AddCommentContainer'
 
 
-export const Comment = ({ isReply = false, isAuthor = false, comment, setComments, comments }) => {
+export const Comment = ({ replying, handleReplying, isReply = false, isAuthor = false, comment, setComments, comments }) => {
     const classNames = useClassConditional()
-    const { user } = useContext(UserContext)
-    const [ isLiked, setIsLiked ] = useState(null)
-
-    // TO DO: for new comments, create "x time ago" format
+    const [isLiked, setIsLiked] = useState(null)
 
     const handleLike = (queryId, arr, action) => {
         const tgtObj = arr.find(
@@ -49,12 +46,6 @@ export const Comment = ({ isReply = false, isAuthor = false, comment, setComment
         };
         return arr
     };
-
-    // I've made the replies work with a recursion,
-    // to avoid creating the same component again
-    const replies = (comment.replies || []).map(reply => {
-        return <Comment isReply={true} isAuthor={user.username === reply.user.username} comments={comments} setComments={setComments} comment={reply} key={reply.id} />
-    })
 
     return (
         <>
@@ -88,17 +79,15 @@ export const Comment = ({ isReply = false, isAuthor = false, comment, setComment
                             <Avatar user={comment.user} isAuthor={isAuthor} />
                             <p className='text-muted mb-0 ms-3 fw-500'>{comment.createdAt}</p>
                             <div className='ms-auto me-3'>
-                                <CommentButtons isAuthor={isAuthor} commentId={comment.id} setComments={setComments} />
+                                <CommentButtons handleReplying={handleReplying} isAuthor={isAuthor} commentId={comment.id} setComments={setComments} />
                             </div>
                         </div>
                         <p className='text-muted mt-1 mb-0'>{comment.replyingTo && <Tag tag={comment.replyingTo} />} {comment.content}</p>
                     </div>
                 </div>
             </div>
-            {
-            // these are the recursively added replies
-            replies}
-
+            {replying &&
+                <AddCommentContainer isReply={isReply} isMain={false} commentId={comment.id} comments={comments} setComments={setComments} handleReplying={handleReplying} />}
         </>
     )
 }
