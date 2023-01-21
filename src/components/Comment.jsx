@@ -65,10 +65,11 @@ export const Comment = ({ replying, handleReplying, isReply = false, isAuthor = 
 
     return (
         <>
-            <div className={classNames('ms-auto rounded bg-white p-2 py-4', isReply ? 'col-11' : 'col-12')}>
-                <div className="row g-0">
-                    <div className="col-1 d-flex justify-content-center align-items-start">
-                        <ButtonGroup vertical className='bg-light-gray rounded'>
+            <div className={classNames('ms-auto rounded bg-white p-2 py-4 position-relative', isReply ? 'col-11' : 'col-12')}>
+                <div className="row g-0 px-3 px-md-0 pb-5 pb-md-0">
+                    <CommentButtons handleReplying={handleReplying} isAuthor={isAuthor} commentId={comment.id} setComments={setComments} />
+                    <div className="col-1 LikeColumn d-flex justify-content-center align-items-start">
+                        <ButtonGroup className='bg-light-gray rounded ScoreButtons'>
                             <Button
                                 className='bg-transparent border-0'
                                 size='sm'
@@ -90,11 +91,10 @@ export const Comment = ({ replying, handleReplying, isReply = false, isAuthor = 
                             </Button>
                         </ButtonGroup>
                     </div>
-                    <div className="col-11">
+                    <div className="col-12 col-md-11">
                         <div className='d-flex align-items-center'>
                             <Avatar user={comment.user} isAuthor={isAuthor} />
                             <p className='text-muted mb-0 ms-3 fw-500'>{comment.createdAt}</p>
-                            <CommentButtons handleReplying={handleReplying} isAuthor={isAuthor} commentId={comment.id} setComments={setComments} />
                         </div>
                         {isAuthor && replying ?
                             <>
