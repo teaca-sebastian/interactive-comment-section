@@ -30,11 +30,11 @@ export const AddCommentContainer = ({ comments, setComments, isReply, isMain = t
         constructor() {
             this.id = findLastId() + 1
             this.content = inputComment
-            this.replyingTo = findCommentById(comments, commentId).user.username
             this.createdAt = "now"
             this.score = 0
             this.user = user
             this.replies = []
+            if (!isMain) this.replyingTo = findCommentById(comments, commentId).user.username
         }
     }
 

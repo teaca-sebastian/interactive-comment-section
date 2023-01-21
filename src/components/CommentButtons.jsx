@@ -15,7 +15,7 @@ export const CommentButtons = ({ isAuthor, commentId, setComments, handleReplyin
     if (isAuthor) return (
         <>
             <DeleteCommentModal showModal={showModal} setShowModal={setShowModal} commentId={commentId} setComments={setComments} />
-            <ButtonGroup className=' border-0 fw-bold'>
+            <ButtonGroup className='border-0 fw-bold'>
                 <Button
                     className='text-danger d-flex fw-bold align-items-center bg-transparent border-0'
                     onClick={handleModalShow} >
@@ -23,7 +23,8 @@ export const CommentButtons = ({ isAuthor, commentId, setComments, handleReplyin
                     Delete
                 </Button>
                 <Button 
-                    className='text-blue d-flex fw-bold align-items-center bg-transparent border-0'>
+                    className='text-blue d-flex fw-bold align-items-center bg-transparent border-0'
+                    onClick={handleReplying}>
                     <i className='bi-pen-fill fs-5 me-1'></i>
                     Edit
                 </Button>

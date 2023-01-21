@@ -1,12 +1,13 @@
 // bootstrap imported stuff
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import Button from 'react-bootstrap/Button'
+import Form from 'react-bootstrap/Form'
 // components
 import { Tag } from './Tag'
 import { Avatar } from './Avatar'
 import { CommentButtons } from './CommentButtons'
 // hooks
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useClassConditional } from '../hooks/useClassConditional'
 // context
 import { AddCommentContainer } from './AddCommentContainer'
@@ -15,6 +16,7 @@ import { AddCommentContainer } from './AddCommentContainer'
 export const Comment = ({ replying, handleReplying, isReply = false, isAuthor = false, comment, setComments, comments }) => {
     const classNames = useClassConditional()
     const [isLiked, setIsLiked] = useState(null)
+    const [editInput, setEditInput] = useState(comment.content)
 
     const handleLike = (queryId, arr, action) => {
         const tgtObj = arr.find(
@@ -47,6 +49,20 @@ export const Comment = ({ replying, handleReplying, isReply = false, isAuthor = 
         return arr
     };
 
+    const updateComment = (arr) => {
+        const tgtObj = arr.find(
+            ({ id }) => id === comment.id
+        );
+        if (tgtObj) {
+            tgtObj.content = editInput
+        } else {
+            arr.filter(el => 'replies' in el).forEach(
+                ({ replies }) => updateComment(replies)
+            );
+        };
+        return arr
+    }
+
     return (
         <>
             <div className={classNames('ms-auto rounded bg-white p-2 py-4', isReply ? 'col-11' : 'col-12')}>
@@ -78,15 +94,34 @@ export const Comment = ({ replying, handleReplying, isReply = false, isAuthor = 
                         <div className='d-flex align-items-center'>
                             <Avatar user={comment.user} isAuthor={isAuthor} />
                             <p className='text-muted mb-0 ms-3 fw-500'>{comment.createdAt}</p>
-                            <div className='ms-auto me-3'>
-                                <CommentButtons handleReplying={handleReplying} isAuthor={isAuthor} commentId={comment.id} setComments={setComments} />
-                            </div>
+                            <CommentButtons handleReplying={handleReplying} isAuthor={isAuthor} commentId={comment.id} setComments={setComments} />
                         </div>
-                        <p className='text-muted mt-1 mb-0'>{comment.replyingTo && <Tag tag={comment.replyingTo} />} {comment.content}</p>
+                        {isAuthor && replying ?
+                            <>
+                                <Form.Control
+                                    as="textarea"
+                                    className='mt-2 w-90'
+                                    value={editInput}
+                                    rows={3}
+                                    onChange={(e) => setEditInput(e.target.value)}
+                                    required
+                                />
+                                <Button
+                                    className='text-white bg-blue px-4 py-2 ms-auto d-block me-3 mt-3'
+                                    onClick={() => {
+                                        setComments([...updateComment(comments)])
+                                        handleReplying()
+                                    }}
+                                >
+                                    UPDATE
+                                </Button>
+                            </>
+                            :
+                            <p className='text-muted mt-1 mb-0'>{comment.replyingTo && <Tag tag={comment.replyingTo} />} {comment.content}</p>}
                     </div>
                 </div>
             </div>
-            {replying &&
+            {replying && !isAuthor &&
                 <AddCommentContainer isReply={isReply} isMain={false} commentId={comment.id} comments={comments} setComments={setComments} handleReplying={handleReplying} />}
         </>
     )
