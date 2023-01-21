@@ -65,9 +65,9 @@ export const AddCommentContainer = ({ comments, setComments, isReply, isMain = t
 
     return (
         <div className={classNames('ms-auto rounded bg-white p-2 py-4 mb-3', isReply ? 'col-11' : 'col-12')}>
-            <div className="row px-3">
-                <div className="col-9 col-md d-flex align-items-start">
-                    <img className='avatar me-4' src={user.image.png} alt="avatar" />
+            <div className="row px-3 position-relative pb-5 pb-md-0">
+                <div className="col-md d-flex align-items-start pb-2">
+                    <img className='avatar me-4 AddCommentAvatar' src={user.image.png} alt="avatar" />
                     <Form.Control
                         as="textarea"
                         value={inputComment}
@@ -77,10 +77,9 @@ export const AddCommentContainer = ({ comments, setComments, isReply, isMain = t
                         required
                     />
                 </div>
-                {/* text-area */}
                 <div className="col-2">
                     <Button
-                        className='text-white bg-blue px-4 py-2 ms-auto d-block'
+                        className='text-white bg-blue px-4 py-2 ms-auto d-block AddCommentButton'
                         onClick={() => {
                             if (isMain) {
                                 handleAddComment()

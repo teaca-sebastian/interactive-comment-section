@@ -13363,10 +13363,6 @@ body {
   background-color: hsl(228deg, 33%, 97%);
 }
 
-.avatar {
-  width: 2rem;
-}
-
 .tag {
   color: hsl(238deg, 40%, 52%);
   font-weight: 500;
@@ -13378,6 +13374,25 @@ body {
 
 .w-90 {
   width: 97%;
+}
+
+.avatar {
+  width: 2rem;
+}
+
+@media screen and (max-width: 768px) {
+  .AddCommentAvatar {
+    position: absolute;
+    bottom: 0;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .AddCommentButton {
+    position: absolute;
+    bottom: 0;
+    right: 2rem;
+  }
 }
 
 .CommentButtons {
