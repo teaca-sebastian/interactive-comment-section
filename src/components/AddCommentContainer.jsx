@@ -67,7 +67,7 @@ export const AddCommentContainer = ({ comments, setComments, isReply, isMain = t
         <div className={classNames('ms-auto rounded bg-white p-2 py-4 mb-3', isReply ? 'col-11' : 'col-12')}>
             <div className="row px-3 position-relative pb-5 pb-md-0">
                 <div className="col-md d-flex align-items-start pb-2">
-                    <img className='avatar me-4 AddCommentAvatar' src={user.image.png} alt="avatar" />
+                    <img className='avatar me-4 AddCommentAvatar' src={new URL(`../assets/images/avatars/image-${user.username}.png`, import.meta.url).href} alt="avatar" />
                     <Form.Control
                         as="textarea"
                         value={inputComment}
